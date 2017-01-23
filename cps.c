@@ -13,6 +13,8 @@ int main(int argc, char *argv[]) {
 	char **tagPortName;
 	char **untagPortName;
 	int val = 0;
+	int count = 0;
+	cps_vlan_prop_t vlanPropList[10];
 
 	tagPortName = (char **)malloc(2 * sizeof(char *));
 	for (idx = 0; idx < 2; idx++) {
@@ -39,6 +41,7 @@ int main(int argc, char *argv[]) {
 		printf("2. Delete Vlan\n");
 		printf("3. Get IfIndex\n");
 		printf("4. Get All Vlan Property\n");
+		printf("5. Set IP Address on Vlan Interface\n");
 		printf("0. Exit\n");
 		printf("Submit you option:");
 		scanf("%d", &val);
@@ -64,14 +67,22 @@ int main(int argc, char *argv[]) {
 				continue;
 			}
 			printf("IfIdx of %s is %d\n", intfRef, ifIdx);
+			break;
 		case 4:
-			int count = 0;
-			cps_vlan_prop_t vlanPropList[4096];
+			memset(vlanPropList, 0, 10 * sizeof(cps_vlan_prop_t));
 			get_all_vlan_prop(&count, vlanPropList);
 			for (idx = 0; idx < count; idx++) {
-				//printf("Vlan ifIdx: %d vlanId %d
-
+				printf("Vlan ifIdx: %d vlanId %d, vlanName: %s, operStatus: %d\n", vlanPropList[idx].ifIdx, vlanPropList[idx].vlanId, vlanPropList[idx].vlanName, vlanPropList[idx].operStatus);
 			}
+			break;
+		case 5:
+			retVal = create_ipv4_addr("br1000", "21.1.10.2", 24);
+			if (retVal != cps_api_ret_code_OK) {
+				printf("Failed to create IPv4 Intf: %d\n", retVal);
+				continue;
+			}
+			printf("Success: Creating IPv4Interface");
+			break;
 		case 0:
 			return 0;
 		default:

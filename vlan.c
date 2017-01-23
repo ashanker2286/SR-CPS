@@ -155,13 +155,16 @@ void get_vlan_prop_from_obj(cps_api_object_t obj, cps_vlan_prop_t *vlanProp){
 		case DELL_BASE_IF_CMN_IF_INTERFACES_INTERFACE_IF_INDEX:
 		    //std::cout<<"VLAN INDEX "<<cps_api_object_attr_data_u32(it.attr)<<std::endl;
 			vlanProp->ifIdx = cps_api_object_attr_data_u32(it.attr);
+			printf("Vlan IfIdx: %d\n", vlanProp->ifIdx);
 			break;
 		case BASE_IF_VLAN_IF_INTERFACES_INTERFACE_ID:
 		    //std::cout<<"VLAN ID "<<cps_api_object_attr_data_u32(it.attr)<<std::endl;
 			vlanProp->vlanId = cps_api_object_attr_data_u32(it.attr);
+			printf("Vlan Id: %d\n", vlanProp->vlanId);
 			break;
 		case IF_INTERFACES_INTERFACE_NAME:
-		    sprintf(vlanProp->vlanName, "%s", (char *)cps_api_object_attr_data_bin(it.attr));
+			sprintf(vlanProp->vlanName, "%s", (char *)cps_api_object_attr_data_bin(it.attr));
+			printf("Vlan Name: %s\n", vlanProp->vlanName);
 		    break;
 		case DELL_IF_IF_INTERFACES_INTERFACE_TAGGED_PORTS:
 		    //std::cout<<"Tagged Port "<<cps_api_object_attr_data_u32(it.attr)<<std::endl;
@@ -196,12 +199,9 @@ void get_all_vlan_prop(int *count, cps_vlan_prop_t *vlanPropList) {
 
 	cps_api_object_t obj = cps_api_object_list_create_obj_and_append(gp.filters);
 	key = cps_api_object_key(obj);
-	cps_api_key_from_attr_with_qual(key, DELL_BASE_IF_CMN_IF_INTERFACES_INTERFACE_OBJ,
-				    cps_api_qualifier_TARGET);
+	cps_api_key_from_attr_with_qual(key, DELL_BASE_IF_CMN_IF_INTERFACES_INTERFACE_OBJ, cps_api_qualifier_TARGET);
 
-	cps_api_object_attr_add(obj,IF_INTERFACES_INTERFACE_TYPE,
-		(const char *)IF_INTERFACE_TYPE_IANAIFT_IANA_INTERFACE_TYPE_IANAIFT_L2VLAN,
-		sizeof(IF_INTERFACE_TYPE_IANAIFT_IANA_INTERFACE_TYPE_IANAIFT_L2VLAN));
+	cps_api_object_attr_add(obj,IF_INTERFACES_INTERFACE_TYPE, (const char *)IF_INTERFACE_TYPE_IANAIFT_IANA_INTERFACE_TYPE_IANAIFT_L2VLAN,sizeof(IF_INTERFACE_TYPE_IANAIFT_IANA_INTERFACE_TYPE_IANAIFT_L2VLAN));
 
 	gp.key_count = 1;
 	gp.keys = key;
