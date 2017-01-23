@@ -6,8 +6,8 @@ LDFLAGS = -L/usr/lib/x86_64-linux-gnu/ -lsonic_object_library
 #targets
 all: cps
 
-cps: intf.o vlan.o cps.o ip.o
-	$(CC) -o cps cps.o vlan.o intf.o ip.o $(LDFLAGS)
+cps: intf.o vlan.o cps.o ip.o route.o neigh.o
+	$(CC) -o cps cps.o vlan.o intf.o ip.o route.o neigh.o $(LDFLAGS)
 
 cps.o: cps.c
 	$(CC) $(CFLAGS) -c cps.c
@@ -20,6 +20,12 @@ vlan.o: vlan.c
 
 ip.o: ip.c
 	$(CC) $(CFLAGS) -c ip.c
+
+route.o: route.c
+	$(CC) $(CFLAGS) -c route.c
+
+neigh.o: neigh.c
+	$(CC) $(CFLAGS) -c neigh.c
 
 clean:
 	rm -rf *.o cps

@@ -17,6 +17,7 @@
 #include <sonic/cps_class_map.h>
 #include <sonic/cps_api_object_key.h>
 #include <sonic/dell-base-ip.h>
+#include <sonic/dell-base-routing.h>
 
 typedef struct cps_vlan_prop_s {
 	uint32_t	ifIdx;
@@ -30,7 +31,16 @@ typedef struct cps_vlan_prop_s {
 int getIfIdxFromIntfRef(char *intfRef);
 cps_api_return_code_t delete_vlan(uint32_t vlanId);
 cps_api_return_code_t create_vlan(uint32_t vlanId, uint32_t numOfTagPorts, char **tagPorts, uint32_t numOfUntagPorts, char **untagPorts);
+//Not Working
 void get_all_vlan_prop(int *count, cps_vlan_prop_t *vlanPropList);
 cps_api_return_code_t create_ipv4_addr(char *intfRef, char *ipAddr, uint32_t prefix);
+cps_api_return_code_t delete_ipv4_addr(char *intfRef, char *ipAddr, uint32_t prefix);
+//Not Working
+cps_api_return_code_t update_ipv4_addr(char *intfRef, char *ipAddr, uint32_t prefix);
+cps_api_return_code_t create_ipv4_route(char *destNw, uint32_t prefix, char *nhIp);
+cps_api_return_code_t delete_ipv4_route(char *destNw, uint32_t prefix, char *nhIp);
+
+cps_api_return_code_t create_ipv4_neighbor(char *nbrIp, char *intf, uint8_t macAddr[6]);
+cps_api_return_code_t delete_ipv4_neighbor(char *nbrIp, char *intf, uint8_t macAddr[6]);
 
 #endif /* CPS_H */
