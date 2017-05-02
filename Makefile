@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -g -O0
 CFLAGS += -I. -I/usr/include/
-LDFLAGS = -L/usr/lib/x86_64-linux-gnu/ -lsonic_object_library
+LDFLAGS = -L/usr/lib/x86_64-linux-gnu/ -lopx_common -lopx_cps_api_common
 
 #targets
 all: cps
