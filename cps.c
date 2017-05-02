@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
 	char **untagPortName;
 	int val = 0;
 	int count = 0;
+        PortCfg_t *portCfg = NULL;
 	cps_vlan_prop_t vlanPropList[10];
 	uint8_t macAddr[6] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06};
 
@@ -49,6 +50,7 @@ int main(int argc, char *argv[]) {
 		printf("9. Delete IPv4 Route\n");
 		printf("10. Create IPv4 Neighbor\n");
 		printf("11. Delete IPv4 Neighbor\n");
+                printf("12. Get port config\n");
 		printf("0. Exit\n");
 		printf("Submit you option:");
 		scanf("%d", &val);
@@ -138,6 +140,21 @@ int main(int argc, char *argv[]) {
 			}
 			printf("Success: Deleting IPv4 Neighbor");
 			break;
+                case 12:
+                        retVal = get_port_cfg(NULL, &count);
+                        if (count <= 0 ) {
+                           printf("No ports found\n");
+                           break;
+                        } 
+                        printf("Found %d ports\n", count);
+                        portCfg = (PortCfg_t *)malloc(sizeof (*portCfg) * count); 
+                        count = 0;
+                        retVal = get_port_cfg(portCfg, &count);
+                        for (idx = 0 ; idx < count; idx++) {
+                             printf("Port:%d name:%s speed:%u breakOutMode:%u\n", idx, (char *)portCfg[idx].PortName, portCfg[idx].PortSpeed,
+                                    portCfg[idx].breakOutMode); 
+                        }
+                        break;
 		case 0:
 			return 0;
 		default:
