@@ -1,3 +1,6 @@
 # SR-CPS
 C function for CPS
-A docker image ubuntu/opx has been created with the required dev environment to compile this code on 192.168.100.63
+A docker repo pkrishn6/opx has been created with the required dev environment.
+docker pull pkrishn6/opx
+docker run
+docker exec -it
